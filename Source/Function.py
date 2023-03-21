@@ -33,7 +33,7 @@ def checkNaNArray(array):
 # 7/ Checking whether that attribute is missing data:
 def checkMissing(house_df):
     checkMiss = []
-    attributes = list(house_df.keys())                        #listAttributes(house_df)
+    attributes = list(house_df.keys())
     numInstance = numOfInstances(house_df)
     for i in attributes:
         for index in range(numInstance):
@@ -60,6 +60,11 @@ def countMissingRows(house_df):
     missValue = house_df.isna().any(axis=1).sum()
     return missValue
 
+def Test_CountingMissRows(house_df):
+    attributes = list(house_df.keys())    
+    for i in attributes:
+        MissingArray = checkNaNArray(house_df[i])
+    return MissingArray.count(False)
 
 
 
