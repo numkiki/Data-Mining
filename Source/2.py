@@ -6,6 +6,6 @@ import sys
 import Function
 dataset = Function.loadData(sys.argv[1])
 
-sum = Function.Test_CountingMissRows(dataset)
+sum = Function.test(dataset)
 print("Number of missing data rows: ",sum)
     

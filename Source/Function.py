@@ -55,16 +55,60 @@ def listNumOfMissing(house_df):
         NumberOfMissing[i] = NumOfMiss
     return NumberOfMissing
 
-# 9/ 
+# 9/ Counting total missing value rows:
+#Method 1:
 def countMissingRows(house_df):
     missValue = house_df.isna().any(axis=1).sum()
     return missValue
-
+#Method 2: prefer this method
 def Test_CountingMissRows(house_df):
     attributes = list(house_df.keys())    
     for i in attributes:
         MissingArray = checkNaNArray(house_df[i])
     return MissingArray.count(False)
+
+# Calculate Mean function:
+def means(array):
+    sum_score = 0
+    count = 0
+    for i in range(array.shape[0]):
+        if (checkNaN(array[i]) == False):
+            sum_score += array[i]
+            count += 1
+    return round((sum_score / count), 2)
+
+# Calculate Median function:
+def median(array):
+    score = []
+    for i in range(array.shape[0]):
+        if (checkNaN(array[i]) == False):
+            score.append(array[i])
+    sorted_score = score.sort()
+    n = int(len(sorted_score) / 2)
+    if (n % 2 == 0):
+        return (sorted_score[n - 1] + sorted_score[n]) / 2
+    else:
+        return sorted_score[n]
+    
+#Calculate Mode function:
+def mode(array):
+    score = {}
+    for i in range(array.shape[0]):
+        if (checkNaN(array[i]) == False):
+            if array[i] not in score:
+                score[array[i]] = 1
+            else:
+                score[array[i]] += 1
+    max = 0
+    result = 0
+    for val in score:
+        if (max < score[val]):
+            max = score[val]
+            result = val
+    return result
+
+
+
 
 
 
