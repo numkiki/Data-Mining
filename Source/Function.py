@@ -19,11 +19,7 @@ def numOfInstances(house_df):
 def numOfAttributes(house_df):
     return house_df.shape[1]
 
-# 4/ Get the list of attributes in the dataset:
-def listAttributes(house_df):
-    return list(house_df)
-
-# 5/ Checking value is NaN or not:
+# 4/ Checking value is NaN or not:
 def checkNaN(value):
     return value != value
 
@@ -37,7 +33,7 @@ def checkNaNArray(array):
 # 7/ Checking whether that attribute is missing data:
 def checkMissing(house_df):
     checkMiss = []
-    attributes = listAttributes(house_df)
+    attributes = list(house_df.keys())                        #listAttributes(house_df)
     numInstance = numOfInstances(house_df)
     for i in attributes:
         for index in range(numInstance):
@@ -49,7 +45,7 @@ def checkMissing(house_df):
 # 8/ 
 def listNumOfMissing(house_df):
     NumberOfMissing = {}  # constaint attribute and number of missing data
-    attributes = listAttributes(house_df)  # get list of Attribute
+    attributes = list(house_df.keys())    
     NumOfInstances = numOfInstances(house_df)  # get the number of Instances
     for i in attributes:  # Check each of attributes
         MissingArray = checkNaNArray(house_df[i])  # IsNaN = 1      NotIsNaN = 0
@@ -59,7 +55,10 @@ def listNumOfMissing(house_df):
         NumberOfMissing[i] = NumOfMiss
     return NumberOfMissing
 
-
+# 9/ 
+def countMissingRows(house_df):
+    missValue = house_df.isna().any(axis=1).sum()
+    return missValue
 
 
 

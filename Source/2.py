@@ -6,5 +6,7 @@ import sys
 import Function
 dataset = Function.loadData(sys.argv[1])
 
-print("Attributes which have data missing:")
-print(Function.checkMissing(dataset))
+sum = Function.countMissingRows(dataset)
+
+print("Number of missing data rows: ",sum)
+    
