@@ -57,7 +57,7 @@ def countMissingRows(house_df):
     return missvalue
 
 # Calculate Mean:
-def mean(column, dataset):
+def mean(column, dataset, output):
     def average(single_array):
         sum = 0
         count = 0
@@ -65,39 +65,22 @@ def mean(column, dataset):
             if checkNaN(i) == False:
                 sum += i
                 count+=1
-        return sum/count
+        return round(sum/count, 2)
     
     subDataset = dataset[column]
     numCols = len(column)
-    print(numCols)
-    # print(type(list(subDataset.values)))
-    imputeValue = average(list(subDataset.values))
-    print(imputeValue)
-    for i in range(numCols):
-        for j in subDataset.loc["LotArea"]:
-            print(j)
-        # print(subDataset.iloc[subDataset[i]])
-        # imputeValue = average(subDataset.loc[i])
-        # for j in range(len(subDataset.loc[i])):
-        #     if checkNaN(subDataset.loc[i][j]) == True:
-        #         subDataset.loc[i][j] = imputeValue
+    key_value = {}
 
-    # pd.to_csv(subDataset)
-
-    # sum_score = 0
-    # count = 0
-    # if numCols <= 1:
-    #     for i in range(numCols):
-    #         if (checkNaN(array[i]) == False):
-    #             sum_score += array[i]
-    #             count += 1
-    # else:
-    #     for i in range(numCols):
-    #         for j in range(numCols[0]):
-                
-    #     pass
-    # avg = round((sum_score / count), 2)
-    # return round((sum_score / count), 2)
+    for i in column: # go through each column
+        imputeValue = average(subDataset[i])
+        for j in range(len(subDataset[i])):  # go through each row      
+            if checkNaN(subDataset.loc[j, i]):
+                subDataset.loc[j, i] = imputeValue
+        key_value[i] = subDataset[i]        
+    
+    df = pd.DataFrame(key_value)
+    df.to_csv(output)
+    print(len(key_value))
 
 # Calculate Median:
 def median(array): # for quantitative attributes

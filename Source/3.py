@@ -1,3 +1,5 @@
+
+# Example: python 3.py -i house-prices.csv -m mean -c LotArea Id -o output_mean.csv
 import argparse
 import Function
 
@@ -15,8 +17,7 @@ input, method, output = \
 
 dataset = Function.loadData(input)
 if (method == 'mean'):
-    Function.mean(args.column, dataset)
-    pass
+    Function.mean(args.column, dataset, output)
 elif (method == 'median'):
     pass
 elif (method == 'mode'):
