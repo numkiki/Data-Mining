@@ -17,9 +17,9 @@ input, method, output = \
 
 dataset = Function.loadData(input)
 if (method == 'mean'):
-    Function.mean(args.column, dataset, output)
+    Function.fillMean(args.column, dataset, output)
 elif (method == 'median'):
-    pass
+    Function.fillMedian(args.column, dataset, output)
 elif (method == 'mode'):
     pass
 else:

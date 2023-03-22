@@ -57,7 +57,7 @@ def countMissingRows(house_df):
     return missvalue
 
 # Calculate Mean:
-def mean(column, dataset, output):
+def fillMean(column, dataset, output):
     def average(single_array):
         sum = 0
         count = 0
@@ -83,17 +83,34 @@ def mean(column, dataset, output):
     print(len(key_value))
 
 # Calculate Median:
-def median(array): # for quantitative attributes
-    score = []
-    for i in range(array.shape[0]):
-        if (checkNaN(array[i]) == False):
-            score.append(array[i])
-    sorted_score = score.sort()
-    n = int(len(sorted_score) / 2)
-    if (n % 2 == 0):
-        return (sorted_score[n - 1] + sorted_score[n]) / 2
-    else:
-        return sorted_score[n]
+def fillMedian(column, dataset, output): # for quantitative attributes
+    def median(col): 
+        nan_filter = []
+        for i in col:
+            if (checkNaN(i) == False):
+                nan_filter.append(i)
+        sorted_filter = sorted(nan_filter)
+        n = int(len(sorted_filter) / 2)
+        if (n % 2 != 0):
+            return (sorted_filter[n - 1] + sorted_filter[n]) / 2
+        else:
+            return sorted_filter[n]
+
+    subDataset = dataset[column]
+    numCols = len(column)
+    key_value = {}
+
+    for i in column: # go through each column
+        imputeValue = median(subDataset[i])
+        for j in range(len(subDataset[i])):  # go through each row      
+            if checkNaN(subDataset.loc[j, i]):
+                subDataset.loc[j, i] = imputeValue
+        key_value[i] = subDataset[i]        
+    
+    df = pd.DataFrame(key_value)
+    df.to_csv(output)
+     
+
     
 #Calculate Mode for qualitative attributes:
 def mode(array):
