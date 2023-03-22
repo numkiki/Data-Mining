@@ -6,6 +6,6 @@ import sys
 import Function
 dataset = Function.loadData(sys.argv[1])
 
-sum = Function.test(dataset)
-print("Number of missing data rows: ",sum)
+sum = Function.countMissingRows(dataset)
+print("Number of missing data rows:",sum)
     

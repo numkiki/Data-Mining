@@ -1,36 +1,30 @@
-# Import used Library for this Lab:
-import numpy as np
 import pandas as pd
-import math
 
-#Function used for this Lab:
-
-# Dataset functions:
-# 1/ Load Dataset:
+# Load Dataset:
 def loadData(filename):
     house_df = pd.read_csv(filename)
     return house_df
 
-# 2/ Get the number of instances in the dataset:
+# Get the number of instances in the dataset:
 def numOfInstances(house_df):
     return house_df.shape[0]
 
-# 3/ Get the number of attributes in the dataset:
+# Get the number of attributes in the dataset:
 def numOfAttributes(house_df):
     return house_df.shape[1]
 
-# 4/ Checking value is NaN or not:
+# Checking value is NaN or not:
 def checkNaN(value):
     return value != value
 
-# 6/ Checking each of elements in the array whether they are NaN or not:
+# Checking each of elements in the array whether they are NaN or not:
 def checkNaNArray(array):
     arr = []
     for i in array:
-        arr.append(checkNaN(i))
+        arr.append(checkNaN(i)) #return a list of Trues and Falses
     return arr
 
-# 7/ Checking whether that attribute is missing data:
+# Checking whether that attribute is missing data:
 def checkMissing(house_df):
     checkMiss = []
     attributes = list(house_df.keys())
@@ -42,7 +36,7 @@ def checkMissing(house_df):
                 break
     return checkMiss
 
-# 8/ 
+# 
 def listNumOfMissing(house_df):
     NumberOfMissing = {}  # constaint attribute and number of missing data
     attributes = list(house_df.keys())    
@@ -55,19 +49,25 @@ def listNumOfMissing(house_df):
         NumberOfMissing[i] = NumOfMiss
     return NumberOfMissing
 
-# 9/ Counting total missing value rows:
+# Counting total missing value rows:
 #Method 1:
 def countMissingRows(house_df):
-    missValue = house_df.isna().any(axis=1).sum()
-    return missValue
-#Method 2: prefer this method
-def Test_CountingMissRows(house_df):
-    attributes = list(house_df.keys())    
-    for i in attributes:
-        MissingArray = checkNaNArray(house_df[i])
-    return MissingArray.count(False)
+    # missValue = house_df.isna().any(axis=1).sum()
+    # return missValue
+    missvalue = 0
+    for i in range(len(house_df)):
+        if True in checkNaNArray(list(house_df.loc[i])):
+            missvalue+=1
+    return missvalue
 
-# Calculate Mean function:
+#Method 2: prefer this method
+# def Test_CountingMissRows(house_df):
+#     attributes = list(house_df.keys())    
+#     for i in attributes:
+#         MissingArray = checkNaNArray(house_df[i])
+#     return MissingArray.count(False)
+
+# Calculate Mean:
 def means(array):
     sum_score = 0
     count = 0
@@ -77,8 +77,8 @@ def means(array):
             count += 1
     return round((sum_score / count), 2)
 
-# Calculate Median function:
-def median(array):
+# Calculate Median:
+def median(array): # for quantitative attributes
     score = []
     for i in range(array.shape[0]):
         if (checkNaN(array[i]) == False):
@@ -90,7 +90,7 @@ def median(array):
     else:
         return sorted_score[n]
     
-#Calculate Mode function:
+#Calculate Mode for qualitative attributes:
 def mode(array):
     score = {}
     for i in range(array.shape[0]):
@@ -106,12 +106,3 @@ def mode(array):
             max = score[val]
             result = val
     return result
-
-
-
-
-
-
-
-
-
