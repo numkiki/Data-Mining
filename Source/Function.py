@@ -35,7 +35,6 @@ def checkMissing(house_df):
                 checkMiss.append(i)
                 break
     return checkMiss
-
 # 
 def listNumOfMissing(house_df):
     NumberOfMissing = {}  # constaint attribute and number of missing data
@@ -49,33 +48,56 @@ def listNumOfMissing(house_df):
         NumberOfMissing[i] = NumOfMiss
     return NumberOfMissing
 
-# Counting total missing value rows:
-#Method 1:
+# Counting total rows that have any missing value:
 def countMissingRows(house_df):
-    # missValue = house_df.isna().any(axis=1).sum()
-    # return missValue
     missvalue = 0
     for i in range(len(house_df)):
         if True in checkNaNArray(list(house_df.loc[i])):
             missvalue+=1
     return missvalue
 
-#Method 2: prefer this method
-# def Test_CountingMissRows(house_df):
-#     attributes = list(house_df.keys())    
-#     for i in attributes:
-#         MissingArray = checkNaNArray(house_df[i])
-#     return MissingArray.count(False)
-
 # Calculate Mean:
-def means(array):
-    sum_score = 0
-    count = 0
-    for i in range(array.shape[0]):
-        if (checkNaN(array[i]) == False):
-            sum_score += array[i]
-            count += 1
-    return round((sum_score / count), 2)
+def mean(column, dataset):
+    def average(single_array):
+        sum = 0
+        count = 0
+        for i in single_array:
+            if checkNaN(i) == False:
+                sum += i
+                count+=1
+        return sum/count
+    
+    subDataset = dataset[column]
+    numCols = len(column)
+    print(numCols)
+    # print(type(list(subDataset.values)))
+    imputeValue = average(list(subDataset.values))
+    print(imputeValue)
+    for i in range(numCols):
+        for j in subDataset.loc["LotArea"]:
+            print(j)
+        # print(subDataset.iloc[subDataset[i]])
+        # imputeValue = average(subDataset.loc[i])
+        # for j in range(len(subDataset.loc[i])):
+        #     if checkNaN(subDataset.loc[i][j]) == True:
+        #         subDataset.loc[i][j] = imputeValue
+
+    # pd.to_csv(subDataset)
+
+    # sum_score = 0
+    # count = 0
+    # if numCols <= 1:
+    #     for i in range(numCols):
+    #         if (checkNaN(array[i]) == False):
+    #             sum_score += array[i]
+    #             count += 1
+    # else:
+    #     for i in range(numCols):
+    #         for j in range(numCols[0]):
+                
+    #     pass
+    # avg = round((sum_score / count), 2)
+    # return round((sum_score / count), 2)
 
 # Calculate Median:
 def median(array): # for quantitative attributes
