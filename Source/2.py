@@ -1,5 +1,5 @@
-# Argument syntax: python 1.py input.csv
-# Example:         python 1.py house-prices.csv
+# Argument syntax: python 2.py input.csv
+# Example:         python 2.py house-prices.csv
 
 # Load the convenient packages
 import sys

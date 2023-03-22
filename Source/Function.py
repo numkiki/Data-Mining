@@ -108,23 +108,32 @@ def fillMedian(column, dataset, output): # for quantitative attributes
         key_value[i] = subDataset[i]        
     
     df = pd.DataFrame(key_value)
+    print(len(key_value))
     df.to_csv(output)
-     
-
-    
 #Calculate Mode for qualitative attributes:
-def mode(array):
-    score = {}
-    for i in range(array.shape[0]):
-        if (checkNaN(array[i]) == False):
-            if array[i] not in score:
-                score[array[i]] = 1
+def fillMode(column, dataset, output):
+    def mode (col):
+        freq = {}
+        for i in col:
+            if i in freq:
+                freq[i] += 1
             else:
-                score[array[i]] += 1
-    max = 0
-    result = 0
-    for val in score:
-        if (max < score[val]):
-            max = score[val]
-            result = val
-    return result
+                freq[i] = 1
+        freq_val = max(freq.values())
+        modes = [key for key, value in freq.items() if value == freq_val]
+        return modes
+
+    subDataset = dataset[column]
+    numCols = len(column)
+    key_value = {}
+
+    for i in column: # go through each column
+        imputeValue = mode(subDataset[i])[0]
+        for j in range(len(subDataset[i])):  # go through each row      
+            if checkNaN(subDataset.loc[j, i]):
+                subDataset.loc[j, i] = imputeValue
+        key_value[i] = subDataset[i]     
+
+    print(len(key_value))
+    df = pd.DataFrame(key_value)
+    df.to_csv(output)
