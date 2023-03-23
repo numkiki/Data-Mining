@@ -2,9 +2,17 @@
 # Example:         python 2.py house-prices.csv
 
 # Load the convenient packages
-import sys
+import argparse
 import Function
-dataset = Function.loadData(sys.argv[1])
+
+parser = argparse.ArgumentParser(description=" ")
+
+parser.add_argument('-i', '--input', required=True, help="input file: house-prices.csv")
+args = parser.parse_args()
+
+input = \
+    args.input.lower()
+dataset = Function.loadData(input)
 
 sum = Function.countMissingRows(dataset)
 print(f"Number of rows with missing data: {sum}")

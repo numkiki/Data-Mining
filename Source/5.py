@@ -1,19 +1,27 @@
-# Load the convenient packages
-import sys
+#  Deleting columns containing more than a particular number of missing values (Example: delete columns
+#  with the number of missing values is more than 50% of the number of attributes).
+
+# Argument syntax: python 5.py -i input.csv -r missing_rate -o output.csv
+# Example: python 5.py -i house-prices.csv -r 50 -o new_output5.csv
+
+import argparse
 import Function
 
-dataset = Function.loadData(sys.argv[1])
-rate = int(sys.argv[2].split("=")[1]) / 100
-output = sys.argv[3].split("=")[1]
+parser = argparse.ArgumentParser(description="Delete the column with missing data")
 
-numAttributes = Function.numOfAttributes(dataset)
-numMissing = Function.listNumOfMissing(dataset)
-attributes = list(dataset.keys())
+parser.add_argument('-i', '--input', required=True, help="input file: house-prices.csv")
+parser.add_argument('-r', '--missing_rate', required=True, type = int, choices= range(50, 100),help= \
+                    "Input a number >= 50")
+parser.add_argument('-o', '--output', required=True, help="output file: new_output5.csv")
 
-for attribute in attributes:
-    if (numMissing[attribute] > (rate*numAttributes)):
-        del dataset[attribute]
+args = parser.parse_args()
 
-dataset.to_csv(output)
-print("Attributes left after delete the missing value columns: ")
-print(dataset.keys())
+input, missing_rate, output = \
+    args.input.lower(), args.missing_rate ,args.output.lower()
+
+dataset = Function.loadData(input)
+if (missing_rate >= 50):
+    missing_rate = missing_rate / 100
+    Function.deleteColMissing(dataset, missing_rate, output)
+else:
+    print("Cannot delete")

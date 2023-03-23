@@ -1,4 +1,5 @@
 import pandas as pd
+import csv
 
 # Load Dataset:
 def loadData(filename):
@@ -137,3 +138,34 @@ def fillMode(column, dataset, output):
     print(len(key_value))
     df = pd.DataFrame(key_value)
     df.to_csv(output)
+
+#Delete the row with missing value:
+def deleteRowMissing(dataset,missing_rate,output):
+    numInstances = numOfInstances(dataset)
+    numAttributes = numOfAttributes(dataset)
+    for row in dataset:
+        if (numAttributes == 0):
+            numAttributes = len(row)
+            continue  
+        NumOfMissing = 0
+        for i in row:
+            if (checkNaN(i)):
+                NumOfMissing += 1
+        if (NumOfMissing > missing_rate * numAttributes):
+            del dataset[row]
+    dataset.to_csv(output)
+    print("Instances before deleting:", numInstances)
+    print("Instances left after deleting the missing value rows with missing rate more than", missing_rate,":", len(dataset))
+
+#Delete the column with missing value:
+def deleteColMissing(dataset,missing_rate,output):
+    numAttributes = numOfAttributes(dataset)
+    numMissing = listNumOfMissing(dataset)
+    attributes = list(dataset.keys())
+
+    for attribute in attributes:
+        if (numMissing[attribute] > (missing_rate * numAttributes)):
+            del dataset[attribute]
+    dataset.to_csv(output)
+    print("Attributes before deleting:", numAttributes)
+    print("Attributes left after deleting the missing value columns with missing rate more than", missing_rate,":", len(dataset.keys()))
