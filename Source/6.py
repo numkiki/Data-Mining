@@ -11,5 +11,5 @@ input = args.input.lower()
 
 dataset = Function.loadData(input)
 
-len_removeDup = Function.removeDuplicates(dataset)
+len_removeDup = Function.removeDuplicates(dataset)[0]
 print(f"Length after removing duplicates: {len_removeDup}")

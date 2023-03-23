@@ -18,14 +18,14 @@ input, method, output = \
 
 dataset = Function.loadData(input)
 if (method == 'mean'):
-    Function.fillMean(args.column, dataset, output)
-    print("done mean")
+    result = Function.fillMean(args.column, dataset, output)
+    print(f"A {result} has been made")
 elif (method == 'median'):
-    Function.fillMedian(args.column, dataset, output)
-    print("done median")
+    result = Function.fillMedian(args.column, dataset, output)
+    print(f"A {result} has been made")
 elif (method == 'mode'):
-    Function.fillMode(args.column, dataset, output)
-    print("done mode")
+    result = Function.fillMode(args.column, dataset, output)
+    print(f"A {result} has been made")
 else:
     print("Unknown method")
 

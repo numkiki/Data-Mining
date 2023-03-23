@@ -1,5 +1,6 @@
 import pandas as pd
-
+import numpy as np
+import math 
 # Load Dataset:
 def loadData(filename):
     house_df = pd.read_csv(filename)
@@ -57,16 +58,18 @@ def countMissingRows(house_df):
     return missvalue
 
 # Calculate Mean:
-def fillMean(column, dataset, output):
-    def average(single_array):
+def average(single_array):
         sum = 0
         count = 0
         for i in single_array:
             if checkNaN(i) == False:
                 sum += i
                 count+=1
+        if (sum == 0 and count == 0):
+            return 0
         return round(sum/count, 2)
-    
+
+def fillMean(column, dataset, output):
     subDataset = dataset[column]
     numCols = len(column)
     key_value = {}
@@ -79,12 +82,10 @@ def fillMean(column, dataset, output):
         key_value[i] = subDataset[i]        
     
     df = pd.DataFrame(key_value)
-    df.to_csv(output)
-    print(len(key_value))
-
+    df.to_csv(output, index=False)
+    return output
 # Calculate Median:
-def fillMedian(column, dataset, output): # for quantitative attributes
-    def median(col): 
+def median(col): 
         nan_filter = []
         for i in col:
             if (checkNaN(i) == False):
@@ -95,7 +96,8 @@ def fillMedian(column, dataset, output): # for quantitative attributes
             return (sorted_filter[n - 1] + sorted_filter[n]) / 2
         else:
             return sorted_filter[n]
-
+        
+def fillMedian(column, dataset, output): # for quantitative attributes
     subDataset = dataset[column]
     numCols = len(column)
     key_value = {}
@@ -108,11 +110,10 @@ def fillMedian(column, dataset, output): # for quantitative attributes
         key_value[i] = subDataset[i]        
     
     df = pd.DataFrame(key_value)
-    print(len(key_value))
-    df.to_csv(output)
+    df.to_csv(output, index=False)
+    return output
 # Calculate Mode 
-def fillMode(column, dataset, output):
-    def mode (col):
+def mode (col):
         freq = {}
         for i in col:
             if i in freq:
@@ -123,6 +124,7 @@ def fillMode(column, dataset, output):
         modes = [key for key, value in freq.items() if value == freq_val]
         return modes
 
+def fillMode(column, dataset, output):
     subDataset = dataset[column]
     numCols = len(column)
     key_value = {}
@@ -134,9 +136,9 @@ def fillMode(column, dataset, output):
                 subDataset.loc[j, i] = imputeValue
         key_value[i] = subDataset[i]     
 
-    print(len(key_value))
     df = pd.DataFrame(key_value)
-    df.to_csv(output)
+    df.to_csv(output, index=False)
+    return output
 # Remove duplicates
 def removeDuplicates(dataset):
     tempList = dataset.values.tolist()
@@ -152,6 +154,74 @@ def removeDuplicates(dataset):
             output_csv_row.append(tempList[i])
 
     df = pd.DataFrame(output_csv_row, columns=dataset.columns)
-    df.to_csv("output_remove_dup.csv")
-    return len(unique_row)
+    df.to_csv("output_remove_dup.csv", index=False)
+    return len(unique_row), df
+
+def getNumericAttr(dataset):
+    columns = dataset.dtypes
+    res = []
+    for i in (dataset.columns):
+        if (columns[i] in [np.int64, np.float64]):
+            res.append(i)
+    return res
+
+# Min-Max normalization
+def minmax_normalization(dataset, newMax, newMin, column):
+    columns = getNumericAttr(dataset)
+
+    imputed_dataset = fillMean(columns, dataset, "imputed_mean.csv")
+    temp_csv = loadData(imputed_dataset)
+    final_dataset = removeDuplicates(temp_csv)[1]
+
+    min_max = {}
+    attributes = final_dataset.columns.tolist()
+    if (column in attributes):
+        length = len(final_dataset)
+        maxData = final_dataset[column][0]
+        minData = final_dataset[column][0]
+        for i in range(length):
+            if(final_dataset[column][i] > maxData):
+                maxData = float(final_dataset[column][i])
+            elif(final_dataset[column][i] < minData):
+                minData = float(final_dataset[column][i])
+        tempData = []
+        for i in range(0, length):
+            value = round(((final_dataset[column][i]-minData)/(maxData-minData) * (newMax-newMin)) + newMin, 2)
+            tempData.append(value)
+        min_max[column] = tempData
+        df = pd.DataFrame(min_max)
+        df.to_csv("minmax_norm.csv", index=False)
+    else:
+        print("Wrong attribute type")   
+
+def StandardDeviation(col):
+    mean = average(col)
+    sqr_gap = 0
     
+    for i in range(0, len(col)):
+        sqr_gap += pow(abs(col[i] - mean), 2)
+    variance = sqr_gap/len(col)  
+    sd = math.sqrt(variance)
+    
+    return sd
+
+def zscore_normalization(dataset, column):
+    columns = getNumericAttr(dataset)
+
+    imputed_dataset = fillMean(columns, dataset, "imputed_mean.csv")
+    temp_csv = loadData(imputed_dataset)
+    final_dataset = removeDuplicates(temp_csv)[1]
+    z_score = {}
+    attributes = final_dataset.columns.tolist()
+    if (column in attributes):
+        mean = average(final_dataset[column])
+        sd = StandardDeviation(final_dataset[column])
+        tempData = []
+        for i in range(0, len(final_dataset)):
+            value = round((final_dataset[column][i]-mean)/sd, 2)
+            tempData.append(value)
+        z_score[column] = tempData
+        df = pd.DataFrame(z_score)
+        df.to_csv("zscore_norm.csv", index=False)
+    else:
+        print("Wrong attribute type")
