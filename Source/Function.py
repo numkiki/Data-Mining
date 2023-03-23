@@ -61,15 +61,15 @@ def countMissingRows(house_df):
 
 # Calculate Mean:
 def average(single_array):
-        sum = 0
-        count = 0
-        for i in single_array:
-            if checkNaN(i) == False:
-                sum += i
-                count+=1
-        if (sum == 0 and count == 0):
-            return 0
-        return round(sum/count, 2)
+    sum = 0
+    count = 0
+    for i in single_array:
+        if checkNaN(i) == False:
+            sum += i
+            count+=1
+    if (sum == 0 and count == 0):
+        return 0
+    return round(sum/count, 2)
 
 def fillMean(column, dataset, output):
     subDataset = dataset[column]
@@ -88,16 +88,16 @@ def fillMean(column, dataset, output):
     return output
 # Calculate Median:
 def median(col): 
-        nan_filter = []
-        for i in col:
-            if (checkNaN(i) == False):
-                nan_filter.append(i)
-        sorted_filter = sorted(nan_filter)
-        n = int(len(sorted_filter) / 2)
-        if (n % 2 != 0):
-            return (sorted_filter[n - 1] + sorted_filter[n]) / 2
-        else:
-            return sorted_filter[n]
+    nan_filter = []
+    for i in col:
+        if (checkNaN(i) == False):
+            nan_filter.append(i)
+    sorted_filter = sorted(nan_filter)
+    n = int(len(sorted_filter) / 2)
+    if (n % 2 != 0):
+        return (sorted_filter[n - 1] + sorted_filter[n]) / 2
+    else:
+        return sorted_filter[n]
         
 def fillMedian(column, dataset, output): # for quantitative attributes
     subDataset = dataset[column]
@@ -116,15 +116,15 @@ def fillMedian(column, dataset, output): # for quantitative attributes
     return output
 # Calculate Mode 
 def mode (col):
-        freq = {}
-        for i in col:
-            if i in freq:
-                freq[i] += 1
-            else:
-                freq[i] = 1
-        freq_val = max(freq.values())
-        modes = [key for key, value in freq.items() if value == freq_val]
-        return modes
+    freq = {}
+    for i in col:
+        if i in freq:
+            freq[i] += 1
+        else:
+            freq[i] = 1
+    freq_val = max(freq.values())
+    modes = [key for key, value in freq.items() if value == freq_val]
+    return modes
 
 def fillMode(column, dataset, output):
     subDataset = dataset[column]
