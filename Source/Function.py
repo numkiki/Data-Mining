@@ -110,7 +110,7 @@ def fillMedian(column, dataset, output): # for quantitative attributes
     df = pd.DataFrame(key_value)
     print(len(key_value))
     df.to_csv(output)
-#Calculate Mode for qualitative attributes:
+# Calculate Mode 
 def fillMode(column, dataset, output):
     def mode (col):
         freq = {}
@@ -137,3 +137,21 @@ def fillMode(column, dataset, output):
     print(len(key_value))
     df = pd.DataFrame(key_value)
     df.to_csv(output)
+# Remove duplicates
+def removeDuplicates(dataset):
+    tempList = dataset.values.tolist()
+    separator = ', '
+    joinedList = [separator.join(map(str, innerList)) for innerList in tempList]
+
+    unique_row = []
+    output_csv_row = []
+
+    for i in range(len(joinedList)):
+        if joinedList[i] not in unique_row:
+            unique_row.append(joinedList[i])
+            output_csv_row.append(tempList[i])
+
+    df = pd.DataFrame(output_csv_row, columns=dataset.columns)
+    df.to_csv("output_remove_dup.csv")
+    return len(unique_row)
+    
