@@ -1,8 +1,6 @@
-#  Deleting columns containing more than a particular number of missing values (Example: delete columns
-#  with the number of missing values is more than 50% of the number of attributes).
-
+# Requirement: Deleting columns containing more than a particular number of missing values (Example: delete columns with the number of missing values is more than 50% of the number of attributes).
 # Argument syntax: python 5.py -i input.csv -r missing_rate -o output.csv
-# Example: python 5.py -i house-prices.csv -r 50 -o new_output5.csv
+# Example:         python 5.py -i house-prices.csv -r 50 -o output5.csv
 
 import argparse
 import Function
