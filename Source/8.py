@@ -16,27 +16,15 @@ dataset = Function.loadData(input)
 
 if (method == 'a'):
     result = Function.addition(dataset, col1, col2)
-    if ".csv" in result:
-        print(result)
-    else: 
-        print("Wrong attribute type")
+    print(result)
 elif (method == 's'):
     result = Function.subtraction(dataset, col1, col2)
-    if ".csv" in result:
-        print(result)
-    else: 
-        print("Wrong attribute type")    
+    print(result)
 elif (method == 'm'):
     result = Function.multiplication(dataset, col1, col2)
-    if ".csv" in result:
-        print(result)
-    else: 
-        print("Wrong attribute type")
+    print(result)
 elif (method == 'd'):
     result = Function.division(dataset, col1, col2)
-    if ".csv" in result:
-        print(result)
-    else: 
-        print("Wrong attribute type")
+    print(result)
 else:
     print("Wrong method")
