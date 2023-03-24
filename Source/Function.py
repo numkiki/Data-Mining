@@ -4,16 +4,16 @@ import math
 
 # Load Dataset:
 def loadData(filename):
-    house_df = pd.read_csv(filename)
-    return house_df
+    dataset = pd.read_csv(filename)
+    return dataset
 
 # Get the number of instances in the dataset:
-def numOfInstances(house_df):
-    return house_df.shape[0]
+def numOfInstances(dataset):
+    return dataset.shape[0]
 
 # Get the number of attributes in the dataset:
-def numOfAttributes(house_df):
-    return house_df.shape[1]
+def numOfAttributes(dataset):
+    return dataset.shape[1]
 
 # Checking value is NaN or not:
 def checkNaN(value):
@@ -27,36 +27,37 @@ def checkNaNArray(array):
     return arr
 
 # Checking whether that attribute is missing data:
-def checkMissing(house_df):
+def checkMissing(dataset):
     checkMiss = []
-    attributes = list(house_df.keys())
-    numInstance = numOfInstances(house_df)
+    attributes = list(dataset.keys())
+    numInstance = numOfInstances(dataset)
     for i in attributes:
-        for index in range(numInstance):
-            if(checkNaN(house_df[i][index])):
+        for j in range(numInstance):
+            if(checkNaN(dataset[i][j])):
                 checkMiss.append(i)
                 break
     return checkMiss
-# 
-def listNumOfMissing(house_df):
-    NumberOfMissing = {}  # constaint attribute and number of missing data
-    attributes = list(house_df.keys())    
-    NumOfInstances = numOfInstances(house_df)  # get the number of Instances
+
+# Counting the number of missing data
+def numOfMissing(dataset):
+    numMissing = {}
+    attributes = list(dataset.keys())    
+    NumOfInstances = numOfInstances(dataset)
     for i in attributes:  # Check each of attributes
-        MissingArray = checkNaNArray(house_df[i])  # IsNaN = 1      NotIsNaN = 0
+        MissingArray = checkNaNArray(dataset[i])
         NumOfMiss = 0
-        for index in range(NumOfInstances):
-            NumOfMiss += int(MissingArray[index])
-        NumberOfMissing[i] = NumOfMiss
-    return NumberOfMissing
+        for j in range(NumOfInstances):
+            NumOfMiss += int(MissingArray[j])
+        numMissing[i] = NumOfMiss
+    return numMissing
 
 # Counting total rows that have any missing value:
 def countMissingRows(house_df):
-    missvalue = 0
+    missValue = 0
     for i in range(len(house_df)):
         if True in checkNaNArray(list(house_df.loc[i])):
-            missvalue+=1
-    return missvalue
+            missValue += 1
+    return missValue
 
 # Calculate Mean:
 def average(single_array):
@@ -85,6 +86,7 @@ def fillMean(column, dataset, output):
     df = pd.DataFrame(key_value)
     df.to_csv(output, index=False)
     return output
+
 # Calculate Median:
 def median(col): 
     nan_filter = []
@@ -113,6 +115,7 @@ def fillMedian(column, dataset, output): # for quantitative attributes
     df = pd.DataFrame(key_value)
     df.to_csv(output, index=False)
     return output
+
 # Calculate Mode 
 def mode (col):
     freq = {}
@@ -150,11 +153,11 @@ def deleteRowMissing(dataset,missing_rate,output):
         if (numAttributes == 0):
             numAttributes = len(row)
             continue  
-        NumOfMissing = 0
+        numMissing = 0
         for i in row:
             if (checkNaN(i)):
-                NumOfMissing += 1
-        if (NumOfMissing > missing_rate * numAttributes):
+                numMissing += 1
+        if (numMissing > (missing_rate * numAttributes)):
             del dataset[row]
     dataset.to_csv(output)
     print("Instances before deleting:", numInstances)
@@ -163,7 +166,7 @@ def deleteRowMissing(dataset,missing_rate,output):
 #Delete the column with missing value:
 def deleteColMissing(dataset,missing_rate,output):
     numAttributes = numOfAttributes(dataset)
-    numMissing = listNumOfMissing(dataset)
+    numMissing = numOfMissing(dataset)
     attributes = list(dataset.keys())
 
     for attribute in attributes:

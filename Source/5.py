@@ -10,7 +10,7 @@ parser = argparse.ArgumentParser(description="Delete the column with missing dat
 parser.add_argument('-i', '--input', required=True, help="input file: house-prices.csv")
 parser.add_argument('-r', '--missing_rate', type = int, required=True ,help= \
                     "Input a number as an integer")
-parser.add_argument('-o', '--output', required=True, help="output file: new_output5.csv")
+parser.add_argument('-o', '--output', required=True, help="output file: output5.csv")
 
 args = parser.parse_args()
 

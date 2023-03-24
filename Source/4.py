@@ -8,8 +8,8 @@ import Function
 parser = argparse.ArgumentParser(description="Delete the row with missing data")
 
 parser.add_argument('-i', '--input', required=True, help="input file: house-prices.csv")
-parser.add_argument('-r', '--missing_rate', required=True, type = int, choices= range(50, 100),help= \
-                    "Input a number >= 50")
+parser.add_argument('-r', '--missing_rate', required=True, type = float,help= \
+                    "Input a number as an integer")
 parser.add_argument('-o', '--output', required=True, help="output file: output4.csv")
 
 args = parser.parse_args()
@@ -18,9 +18,7 @@ input, missing_rate, output = \
     args.input.lower(), args.missing_rate ,args.output.lower()
 
 dataset = Function.loadData(input)
-
-
-if (missing_rate >= 50):
+if (missing_rate >= 0 or missing_rate <= 100):
     missing_rate = missing_rate / 100
     Function.deleteRowMissing(dataset, missing_rate, output)
 else:
