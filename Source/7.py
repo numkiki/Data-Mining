@@ -3,7 +3,6 @@ import Function
 
 parser = argparse.ArgumentParser(description="Fill missing values using mean, mode and median methods")
 
-parser = argparse.ArgumentParser()
 parser.add_argument('-i', '--input', required=True, help="input file: house-prices.csv")
 parser.add_argument('-m', '--method', required=True, help="method: mm for min-max, zscore for z-score")
 parser.add_argument('--min', help="new min", default=0)

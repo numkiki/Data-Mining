@@ -259,3 +259,86 @@ def zscore_normalization(dataset, column):
         df.to_csv("zscore_norm.csv", index=False)
     else:
         print("Wrong attribute type")
+
+def addition(dataset, col1, col2):
+    columns = getNumericAttr(dataset) # get the numeric attributes
+
+    imputed_dataset = fillMean(columns, dataset, "imputed_mean.csv") # fill the mean to nan
+    temp_csv = loadData(imputed_dataset) # read the data after imputation
+    final_dataset = removeDuplicates(temp_csv)[1] # final dataset after removing duplicates
+    attributes = final_dataset.columns.tolist() # get the list of attributes
+    addition_results = {}
+    if (col1 in attributes and col2 in attributes):
+        result = []
+        for i in range(len(final_dataset)):
+            add_value = final_dataset[col1][i] + final_dataset[col2][i]
+            result.append(add_value)
+        addition_results["AddedValue"] = result
+        df = pd.DataFrame(addition_results)
+        df.to_csv("add_2_columns.csv", index=False)
+        return "A add_2_columns.csv has been created"
+    else:
+        return "Wrong attribute type"
+
+def subtraction(dataset, col1, col2):
+    columns = getNumericAttr(dataset) # get the numeric attributes
+
+    imputed_dataset = fillMean(columns, dataset, "imputed_mean.csv") # fill the mean to nan
+    temp_csv = loadData(imputed_dataset) # read the data after imputation
+    final_dataset = removeDuplicates(temp_csv)[1] # final dataset after removing duplicates
+    attributes = final_dataset.columns.tolist() # get the list of attributes
+    subtraction_results = {}
+    if (col1 in attributes and col2 in attributes):
+        result = []
+        for i in range(len(final_dataset)):
+            sub_value = final_dataset[col1][i] - final_dataset[col2][i]
+            result.append(sub_value)
+        subtraction_results["SubtractedValue"] = result
+        df = pd.DataFrame(subtraction_results)
+        df.to_csv("subtract_2_columns.csv", index=False)
+        return "A subtract_2_columns.csv has been created"
+    else:
+        return "Wrong attribute type"
+
+def multiplication(dataset, col1, col2):
+    columns = getNumericAttr(dataset) # get the numeric attributes
+
+    imputed_dataset = fillMean(columns, dataset, "imputed_mean.csv") # fill the mean to nan
+    temp_csv = loadData(imputed_dataset) # read the data after imputation
+    final_dataset = removeDuplicates(temp_csv)[1] # final dataset after removing duplicates
+    attributes = final_dataset.columns.tolist() # get the list of attributes
+    multiplication_results = {}
+    if (col1 in attributes and col2 in attributes):
+        result = []
+        for i in range(len(final_dataset)):
+            multiply_value = final_dataset[col1][i] * final_dataset[col2][i]
+            result.append(multiply_value)
+        multiplication_results["MultipliedValue"] = result
+        df = pd.DataFrame(multiplication_results)
+        df.to_csv("multiply_2_columns.csv", index=False)
+        return "A multiply_2_columns.csv has been created"
+    else:
+        return "Wrong attribute type"
+
+def division(dataset, col1, col2):
+    columns = getNumericAttr(dataset) # get the numeric attributes
+
+    imputed_dataset = fillMean(columns, dataset, "imputed_mean.csv") # fill the mean to nan
+    temp_csv = loadData(imputed_dataset) # read the data after imputation
+    final_dataset = removeDuplicates(temp_csv)[1] # final dataset after removing duplicates
+    attributes = final_dataset.columns.tolist() # get the list of attributes
+    division_results = {}
+    if (col1 in attributes and col2 in attributes):
+        result = []
+        for i in range(len(final_dataset)):
+            if (final_dataset[col2][i] != 0):
+                divide_value = final_dataset[col1][i] / final_dataset[col2][i]
+                result.append(divide_value)
+            else: 
+                result.append(0)
+        division_results["DividedValue"] = result
+        df = pd.DataFrame(division_results)
+        df.to_csv("divide_2_columns.csv", index=False)
+        return "A divide_2_columns.csv has been created"
+    else:
+        return "Wrong attribute type"
