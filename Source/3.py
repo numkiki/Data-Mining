@@ -1,5 +1,8 @@
+# Requirement: Fill in the missing value using mean, median (for numeric properties) and mode (for the categorical attribute).
+# Argument syntax: python 3.py -i input.csv -m method -c column -o output.csv
+# Example:         python 3.py -i house-prices.csv -m mean -c LotArea Id -o output_mean.csv
 
-# Example: python 3.py -i house-prices.csv -m mean -c LotArea Id -o output_mean.csv
+# Load the convenient packages    
 import argparse
 import Function
 

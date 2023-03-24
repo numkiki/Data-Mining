@@ -1,7 +1,12 @@
+# Requirement: Performing addition, subtraction, multiplication, and division between two numerical attributes.
+# Argument syntax: python 8.py -i input.csv -m method -c1 col1 -c2 col2
+# Example:         python 8.py -i house-prices.csv -m a -c1 OverallQual -c2 OverallCond
+
+
 import argparse
 import Function
 
-parser = argparse.ArgumentParser(description="Fill missing values using mean, mode and median methods")
+parser = argparse.ArgumentParser(description="Performing addition, subtraction, multiplication, and division between two numerical attributes")
 
 parser.add_argument('-i', '--input', required=True, help="input file: house-prices.csv")
 parser.add_argument('-m', '--method', required=True, help="a: addition, s: subtraction, m: multiplication, d: division")

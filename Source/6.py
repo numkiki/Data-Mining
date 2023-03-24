@@ -1,7 +1,11 @@
+# Requirement: Delete duplicate samples.
+# Argument syntax: python 6.py -i input.csv
+# Example:         python 6.py -i house-prices.csv
+
 import argparse
 import Function
 
-parser = argparse.ArgumentParser(description="Fill missing values using mean, mode and median methods")
+parser = argparse.ArgumentParser(description="Delete duplicate samples")
 
 parser.add_argument('-i', '--input', required=True, help="input file: house-prices.csv")
 

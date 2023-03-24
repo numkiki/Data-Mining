@@ -1,5 +1,6 @@
-# Argument syntax: python 1.py input.csv
-# Example:         python 1.py house-prices.csv
+# Requirement: Extract columns with missing values
+# Argument syntax: python 1.py -i input.csv
+# Example:         python 1.py -i house-prices.csv
 
 # Load the convenient packages
 import argparse

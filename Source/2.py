@@ -1,5 +1,6 @@
-# Argument syntax: python 2.py input.csv
-# Example:         python 2.py house-prices.csv
+# Requirement: Count the number of lines with missing data.
+# Argument syntax: python 2.py -i input.csv
+# Example:         python 2.py -i house-prices.csv
 
 # Load the convenient packages
 import argparse

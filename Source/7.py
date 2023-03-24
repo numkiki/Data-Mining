@@ -1,7 +1,11 @@
+# Requirement: Normalize a numeric attribute using min-max and Z-score methods.
+# Argument syntax: python 7.py -i input.csv -m method -c column
+# Example:         python 7.py -i house-prices.csv -m zscore -c LotFrontage
+
 import argparse
 import Function
 
-parser = argparse.ArgumentParser(description="Fill missing values using mean, mode and median methods")
+parser = argparse.ArgumentParser(description="Normalize a numeric attribute using min-max and Z-score methods")
 
 parser.add_argument('-i', '--input', required=True, help="input file: house-prices.csv")
 parser.add_argument('-m', '--method', required=True, help="method: mm for min-max, zscore for z-score")
