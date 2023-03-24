@@ -15,9 +15,16 @@ input, method, newMax, newMin, col = \
 dataset = Function.loadData(input)
 
 if (method == 'mm'):
-    Function.minmax_normalization(dataset, newMax, newMin, col)
-    # pass
+    res = Function.minmax_normalization(dataset, newMax, newMin, col)
+    if (res == True):
+        print(f"3 new files have been created. The file to check is minmax_norm.csv")
+    else:
+        print("Wrong attribute type")
 elif (method == 'zscore'):
-    Function.zscore_normalization(dataset, col)
+    res = Function.zscore_normalization(dataset, col)
+    if (res == True):
+        print(f"3 new files have been created. The file to check is zscore_norm.csv")
+    else:
+       print("Wrong attribute type") 
 else: 
     print("Invalid method")

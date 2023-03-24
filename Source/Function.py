@@ -118,10 +118,12 @@ def fillMedian(column, dataset, output): # for quantitative attributes
 def mode (col):
     freq = {}
     for i in col:
-        if i in freq:
-            freq[i] += 1
-        else:
-            freq[i] = 1
+        if checkNaN(i) == False:
+            if i in freq:
+                freq[i] += 1
+            else:
+                freq[i] = 1
+    print(freq)
     freq_val = max(freq.values())
     modes = [key for key, value in freq.items() if value == freq_val]
     return modes
@@ -137,7 +139,6 @@ def fillMode(column, dataset, output):
             if checkNaN(subDataset.loc[j, i]):
                 subDataset.loc[j, i] = imputeValue
         key_value[i] = subDataset[i]     
-
     df = pd.DataFrame(key_value)
     df.to_csv(output, index=False)
     return output
@@ -206,10 +207,10 @@ def minmax_normalization(dataset, newMax, newMin, column):
     imputed_dataset = fillMean(columns, dataset, "imputed_mean.csv")
     temp_csv = loadData(imputed_dataset)
     final_dataset = removeDuplicates(temp_csv)[1]
-
-    min_max = {}
+ 
     attributes = final_dataset.columns.tolist()
     if (column in attributes):
+        min_max = {}
         length = len(final_dataset)
         maxData = final_dataset[column][0]
         minData = final_dataset[column][0]
@@ -225,8 +226,9 @@ def minmax_normalization(dataset, newMax, newMin, column):
         min_max[column] = tempData
         df = pd.DataFrame(min_max)
         df.to_csv("minmax_norm.csv", index=False)
-    else:
-        print("Wrong attribute type")   
+        return True
+    else:   
+        return False
 
 def StandardDeviation(col):
     mean = average(col)
@@ -245,9 +247,10 @@ def zscore_normalization(dataset, column):
     imputed_dataset = fillMean(columns, dataset, "imputed_mean.csv")
     temp_csv = loadData(imputed_dataset)
     final_dataset = removeDuplicates(temp_csv)[1]
-    z_score = {}
+    
     attributes = final_dataset.columns.tolist()
     if (column in attributes):
+        z_score = {}
         mean = average(final_dataset[column])
         sd = StandardDeviation(final_dataset[column])
         tempData = []
@@ -257,8 +260,9 @@ def zscore_normalization(dataset, column):
         z_score[column] = tempData
         df = pd.DataFrame(z_score)
         df.to_csv("zscore_norm.csv", index=False)
+        return True
     else:
-        print("Wrong attribute type")
+        return False
 
 def addition(dataset, col1, col2):
     columns = getNumericAttr(dataset) # get the numeric attributes
@@ -332,7 +336,7 @@ def division(dataset, col1, col2):
         result = []
         for i in range(len(final_dataset)):
             if (final_dataset[col2][i] != 0):
-                divide_value = final_dataset[col1][i] / final_dataset[col2][i]
+                divide_value = float(final_dataset[col1][i]) / final_dataset[col2][i]
                 result.append(divide_value)
             else: 
                 result.append(0)
