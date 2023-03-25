@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import math 
 
 # Load Dataset:
 def loadData(filename):
@@ -239,7 +238,7 @@ def StandardDeviation(col):
     for i in range(0, len(col)):
         sqr_gap += pow(abs(col[i] - mean), 2)
     variance = sqr_gap/len(col)  
-    sd = math.sqrt(variance)
+    sd = pow(variance, 0.5)
     
     return sd
 
